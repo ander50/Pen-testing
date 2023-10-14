@@ -1,0 +1,153 @@
+
+Conversation opened. 1 read message. 
+
+Skip to content
+Using Gmail with screen readers
+vulner 
+Enable desktop notifications for Gmail.
+   OK  No thanks
+PROJECT: VULNER [UDO, ANDERSON ISONG - S2]
+Inbox
+
+anderson.udo@thinkcybernigeria.com
+Attachments
+Sun, Aug 6, 2:51 PM
+to director, david
+
+Dear Sir.
+
+Please find the attached document containing my completed project.
+
+Thank you Sir.
+ One attachment
+  •  Scanned by Gmail
+#!/bin/bash
+
+# Name: UDO, ANDERSON ISONG - S2
+# Class Code: NX 301
+# Project Name: VULNER
+# Lecturer: Mr David Shiffman
+
+# Map Network Devices and Open Ports
+# Finding LAN network range 
+function identify_lan_range {
+    lan_range=$(ip address show eth0 | awk '/inet / {print $2}')
+    echo "[=>] LAN Network Range: $lan_range"
+}
+
+# Scanning the current LAN
+function scan_lan {
+    echo "[*] Start LAN scanning"
+    nmap -sn $lan_range | awk '{print $NF}'
+    echo "[=>] LAN scan ended"
+}
+
+# Enumerate and Finding potential vulnerabilities 
+function find_vulnerabilities {
+    echo "[*] Enumeration and Vulnerability finding starting..."
+    for ip in $lan_range; do nmap -p 1-65535 $lan_range; done
+    echo "[=>] Possible Enumeration and Vulnerability found"
+}
+
+
+# Check for Weak Passwords Usage
+
+# Allow user input for user list
+function user_list {
+    echo "[=] Specify user list:"
+    read user_list
+    echo "[=>] User list: $user_list"
+}
+
+# Allow user input for password list
+function password_list {
+    echo "[=] Specify password list:"
+    read password_list
+    echo "[=>] Password list: $password_list"
+}
+
+# Function to allow user to create a password list using 'crunch'
+function create_password_list {
+    echo "[=] Enter minimum password length:"
+    read min_length
+
+    echo "[=] Enter maximum password length:"
+    read max_length
+
+    echo "[=] Enter special_character (e.g., @%aA1):"
+    read special_character
+
+    echo "[=] Enter output file name:"
+    read output_file
+
+    crunch $min_length $max_length $character_set -o $output_file
+
+    echo "[=>] Password list created and saved in $output_file."
+}
+
+# Brute Force with Password list using Medusa
+function brute_force {
+    echo "[=] Brute Force initializing"
+
+    echo "[=] Enter the target IP address or hostname:"
+    read target
+
+    echo "[=] Enter the target port:"
+    read port
+
+    echo "[=] Enter the username for the brute force attack:"
+    read username
+
+    echo "[=] Enter the path to the password list file:"
+    read password_list_file
+
+    medusa -h $target -n $port -u $username -P $password_list_file -M ssh 
+
+    echo "[=>] Brute force attack completed."
+}
+
+
+# Display general statistics
+function display_general_statistics {
+    echo "[=] General Statistics:"
+    netstat -s
+}
+
+# Saving results into a report
+function save_results_to_report {
+    echo "[=] Saving results into a report"
+    netstat -s > report.txt
+    echo "[=>] Results saved in report.txt."
+}
+
+# Display relevant findings for a specific ip address
+function display_findings_for_ip {
+    echo "[=] Enter the IP address to filter the findings:"
+    read ip_address
+
+    echo "[=>] Findings for IP address $ip_address:"
+    netstat -an | grep $ip_address
+}
+
+# Main script
+function Main {
+identify_lan_range
+scan_lan
+find_vulnerabilities
+user_list
+password_list
+create_password_list
+brute_force
+display_general_statistics
+save_results_to_report
+display_findings_for_ip
+}
+
+#Execute the Main script
+Main
+
+
+
+
+Vulner Pentesting Project.txt
+Displaying Vulner Pentesting Project.txt.
